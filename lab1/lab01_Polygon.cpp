@@ -1,68 +1,47 @@
-
-
-/* -- INCLUDE FILES ------------------------------------------------------ */
-#include <GL/gl.h>
-#include <GL/glu.h>
 #include <GL/glut.h>
 
+#include <math.h>
 
-/* ----------------------------------------------------------------------- */
+/**
+ * gl : các lệnh liên quan đến vẽ
+ * glut : các lệnh liên quan đến cửa sổ, màn hình ..
+ * */
 
-
-void myInit( void )  {
-    glClearColor( 0.0, 0.0, 0.0, 0.0 );
-    glColor3f( 1.0, 1.0, 1.0 );
-    glPointSize( 3.0 );
-    glMatrixMode( GL_PROJECTION );
-    glLoadIdentity( );
-    glOrtho(0.0, 1.0, 0.0, 1.0, -1.0, 1.0);
-}
-
-/* ----------------------------------------------------------------------- */
-
-/* ----------------------------------------------------------------------- */
-void myDisplay( void )  {
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); 
-
+void displayMe(void)
+{
+    // Lệnh xóa nền
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    // Bắt đầu vẽ đa giác
     glBegin(GL_POLYGON);
-    //glColor3f(1.0f,0.0f,0.0f);		
-    glVertex3f(0.25, 0.25, 0.0);
-    //glColor3f(0.0f,1.0f,0.0f);			
-    glVertex3f(0.75, 0.25, 0.0);
-    //glColor3f(0.5f,0.5f,1.0f);				
-    glVertex3f(0.75, 0.75, 0.0);
-    //glColor3f(0.0f,0.0f,1.0f);			
-    glVertex3f(0.25, 0.75, 0.0);
+        // Các đỉnh được liệt kê sẽ tự nối với nhau và đỉnh cuối sẽ nôi với đỉnh đầu 
 
+        float R = 0.8;
+        float alpha = M_PI/2;
+        float x,y;
+        // dat mau cho da giac
+        glColor3f(1.0,1.0,0.0);
+        for(int i=0;i<6;i++) {
+            x = R*cos(alpha);
+            y = R*sin(alpha);
+            alpha-=M_PI/3;
+            glVertex3f(x,y,0.0);
+        }
     glEnd();
-    glFlush();			
-    glutSwapBuffers();
-
+    // Loại bỏ các transforms
+    glFlush();
+    
 }
-
-/* ----------------------------------------------------------------------- */
-
-int main( int argc, char *argv[] )  {
-    // Initialize GLUT.
-    glutInit( &argc, argv );
-    // Set the mode to draw in.
-    glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGB );
-    // Set the window size in screen pixels.
-    glutInitWindowSize( 640, 480 );
-    // Set the window position in screen pixels.
-    glutInitWindowPosition( 100, 150 );
-    // Create the window.
-    glutCreateWindow( "Vidu_01" );
-    // Set the callback funcion to call when we need to draw something.
-
-
-    myInit( );
-    glutDisplayFunc( myDisplay );
-    // Initialize some things.
-    // Now that we have set everything up, loop responding to events.
-    glutMainLoop( );
+ 
+int main(int argc, char** argv)
+{
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE);
+    glutInitWindowSize(400, 300);
+    glutInitWindowPosition(100, 100);
+    glutCreateWindow("Hello world!");
+    glutDisplayFunc(displayMe);
+    glutMainLoop();
+    return 0;
 }
-
-/* ----------------------------------------------------------------------- */
-
 
