@@ -1,0 +1,16 @@
+body {
+  margin: 0px;
+  overflow: hidden;
+}
+canvas {
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(
+    -55deg,
+    #222,
+    #222 10px,
+    #333 10px,
+    #333 20px
+  );
+}
+
