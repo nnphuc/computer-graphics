@@ -1,1 +1,2 @@
-https://giangm9.github.io/uet-cgwebgl/
+lab5
+lab6
