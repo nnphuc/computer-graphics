@@ -41,9 +41,9 @@ class Teapot:
 
         # Number of longitudes in sphere
         self.longs = 100
-
+        self.rotate = 0
         self.user_theta = 90
-        self.user_height = -20
+        self.user_height = -10
 
         # Direction of light
         self.direction = [0.0, 2.0, -1.0, 1.0]
@@ -55,7 +55,7 @@ class Teapot:
         self.ambient_intensity = [0.3, 0.3, 0.3, 1.0]
 
         # The surface type(Flat or Smooth)
-        self.surface = GL_FLAT
+        self.surface = GL_SMOOTH
         self.vertices = vertices
         self.faces = faces
 
@@ -93,7 +93,7 @@ class Teapot:
         y = 2 * sin(self.user_theta)
         z = self.user_height
         d = sqrt(x * x + y * y + z * z)
-
+        
         # Set matrix mode
         glMatrixMode(GL_PROJECTION)
 
@@ -113,17 +113,20 @@ class Teapot:
 
         # Set shade model
         glShadeModel(self.surface)
-
         self.draw()
         glutSwapBuffers()
 
     # Draw the sphere
     def draw(self):
+        self.rotate+=2.0
+        glPushMatrix()
+        glRotatef(self.rotate,1,1,1)
         for f in self.faces:
             glBegin(GL_POLYGON)
             for v in f:
                 glVertex3f(*self.vertices[v-1])
             glEnd()
+        glPopMatrix()
 
     # Keyboard controller for sphere
     def special(self, key, x, y):
@@ -157,7 +160,7 @@ class Teapot:
             self.user_height -= 0.2
         elif button==0:
             if state==0:
-                self.user_theta += 0.5
+                self.user_theta += 0.05
         self.compute_location()
         glutPostRedisplay()
         
@@ -188,7 +191,7 @@ def main():
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH)
 
     # Set the Window size and position
-    glutInitWindowSize(300, 300)
+    glutInitWindowSize(640, 480)
     glutInitWindowPosition(50, 100)
 
     # Create the window with given title
@@ -196,7 +199,7 @@ def main():
 
     # Instantiate the sphere object
     vertices,faces = load()
-    s = Teapot(1.0,vertices,faces)
+    s = Teapot(5.0,vertices,faces)
 
     s.init()
 
